@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FiloPoliTrivia</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #222;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 600px;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+    }
+
+    .question {
+      margin: 20px 0;
+      font-size: 1.2em;
+    }
+
+    .options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .options li {
+      background: #444;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .options li:hover {
+      background: #555;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      border: none;
+      background-color: #00aaff;
+      color: #fff;
+      font-size: 1em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎓 FiloPoliTrivia</h1>
+    <div class="question" id="question">Cargando pregunta...</div>
+    <ul class="options" id="options"></ul>
+    <div class="result" id="result"></div>
+    <button class="button" onclick="nextQuestion()">Siguiente pregunta</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "¿Qué autor afirmó que el conocimiento produce efectos de poder?",
+        options: ["Michel Foucault", "Karl Popper", "Nancy Fraser", "Herbert Marcuse"],
+        answer: "Michel Foucault"
+      },
+      {
+        question: "¿Qué concepto introdujo Pierre Bourdieu relacionado con el poder del conocimiento?",
+        options: ["Capital cultural", "Voluntad de saber", "Dominación simbólica", "Conciencia de clase"],
+        answer: "Capital cultural"
+      },
+      {
+        question: "¿Cuál es una crítica central en la epistemología crítica según Paulo Freire?",
+        options: [
+          "El conocimiento es universal",
+          "La educación bancaria perpetúa la opresión",
+          "La razón científica es neutral",
+          "La lógica formal es suficiente"
+        ],
+        answer: "La educación bancaria perpetúa la opresión"
+      },
+      {
+        question: "¿Qué destaca Nancy Fraser sobre la producción del conocimiento?",
+        options: [
+          "Que es puramente técnica",
+          "Que excluye voces marginalizadas",
+          "Que no puede ser criticada",
+          "Que se limita a la academia"
+        ],
+        answer: "Que excluye voces marginalizadas"
+      },
+      {
+        question: "¿Qué implica la ideología según Herbert Marcuse?",
+        options: [
+          "Una herramienta de emancipación",
+          "Un reflejo fiel de la realidad",
+          "Un mecanismo de control y limitación del pensamiento crítico",
+          "Una forma de cultura popular"
+        ],
+        answer: "Un mecanismo de control y limitación del pensamiento crítico"
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function showQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("question").textContent = q.question;
+
+      const optionsList = document.getElementById("options");
+      optionsList.innerHTML = "";
+      q.options.forEach(option => {
+        const li = document.createElement("li");
+        li.textContent = option;
+        li.onclick = () => checkAnswer(option, q.answer);
+        optionsList.appendChild(li);
+      });
+
+      document.getElementById("result").textContent = "";
+    }
+
+    function checkAnswer(selected, correct) {
+      const result = document.getElementById("result");
+      if (selected === correct) {
+        result.textContent = "✅ ¡Correcto!";
+        result.style.color = "#0f0";
+      } else {
+        result.textContent = `❌ Incorrecto. La respuesta correcta es: ${correct}`;
+        result.style.color = "#f00";
+      }
+    }
+
+    function nextQuestion() {
+      currentIndex++;
+      if (currentIndex >= questions.length) {
+        document.getElementById("question").textContent = "🎉 ¡Has terminado el juego!";
+        document.getElementById("options").innerHTML = "";
+        document.getElementById("result").textContent = "Reflexiona sobre el poder del conocimiento y su impacto en la sociedad.";
+        document.querySelector(".button").style.display = "none";
+      } else {
+        showQuestion();
+      }
+    }
+
+    // Mostrar la primera pregunta al cargar
+    showQuestion();
+  </script>
+</body>
+</html>
